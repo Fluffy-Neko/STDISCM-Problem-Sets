@@ -1,0 +1,4 @@
+threads = 4
+num = 1000
+print = 1
+task_div = 1
