@@ -1,6 +1,6 @@
 [Config Text File]
 1. Set the preferred number of threads to use and the number to find primes lesser than it
->>>> The number of threads should be greater than 0 and less than the floored square root of the input number
+>>>> The number of threads should be greater than 0 and less than the value of **num**
 
 2. 'print' and 'task_div' should only have 1 or 2 as its value
 >>>> print = 1 | prints Thread id and time stamp immediately; 
@@ -15,7 +15,7 @@
 
 [Instructions]
 - Entry point is in main.c
-- Use the command gcc -o run main.c <filename_x>.c <filename_y>.c ... to compile the source code
+- Use the command gcc -o run main.c DivTest.c to compile the source code
 - Run the program
 >>>> Invoke `run` if using cmd 
 >>>> Use `./run` if powershell/bash
