@@ -6,6 +6,7 @@
 void* main_thread_func(void*);
 void* thread_func_range(void*);
 void* thread_func_linear(void*);
+void print_all(unsigned long long*, unsigned long long);
 
 typedef struct {
     FILE *config_file;
@@ -66,12 +67,10 @@ int main() {
 
     fclose(config.config_file);
 
-    printf("Threads: %d\n", config.threads);
-    printf("Num: %d\n", config.input);
-    printf("Print: %d\n", config.print);
-    printf("Task Division: %d\n", config.task_div);
-
     pthread_t main_thread;
+
+    printf("Listing all primes from 0 to %llu\n", config.input);
+    printf("========================================\n\n");
 
     pthread_create(&main_thread, NULL, main_thread_func, (void*)&config);
     pthread_join(main_thread, 0);
@@ -90,6 +89,10 @@ void *main_thread_func(void* arg) {
         data_arr[0].part_lo = 2;
         data_arr[0].part_hi = data_arr[0].part_lo + part_size - 1;
 
+        if (config->print == 2) {
+            printf("== Joint Thread ==\n");
+        }
+
         for (int i = 0; i < config->threads; i++) {
             data_arr[i].primes = malloc(part_size * sizeof(unsigned long long));
             data_arr[i].primes_count = 0;
@@ -106,10 +109,14 @@ void *main_thread_func(void* arg) {
 
             pthread_create(&thread[i], NULL, thread_func_range, (void*) &data_arr[i]);
 
+            for (unsigned long long j = 0; j < data_arr[i].primes_count; j++) {
+                printf("%llu is prime\n", data_arr[i].primes[j]);
+            }
+
             if (data_arr[i].part_hi == config->input) {
                 break;
             }
-            
+
             if (i+1 != config->threads) {
                 data_arr[i+1].part_lo = data_arr[i].part_hi + 1;
                 data_arr[i+1].part_hi = data_arr[i+1].part_lo + part_size - 1;
@@ -120,10 +127,29 @@ void *main_thread_func(void* arg) {
             pthread_join(thread[i], 0);
         }
 
+        // unsigned long long total_primes_count = 0;
+        // for (int i = 0; i < config->threads; i++) {
+        //     total_primes_count += data_arr[i].primes_count;
+        // }
+        // unsigned long long* all_primes = malloc(total_primes_count * sizeof(unsigned long long));
+        // unsigned long long index = 0;
+        // for (int i = 0; i < config->threads; i++) {
+        //     for (int j = 0; j < data_arr[i].primes_count; j++) {
+        //         printf("This is prime: %llu", data_arr[i].primes[j]);
+        //         all_primes[index++] = data_arr[i].primes[j];
+        //     }
+        //     free(data_arr[i].primes);
+        // }
+        // printf("Total count: %llu", index);
+
         free(data_arr);
     }
     else {
         pthread_t* thread = malloc((config->input - 2) * sizeof(pthread_t));
+
+        if (config->print == 2) {
+            printf("== Joint Thread ==\n");
+        }
     
         for (int i = 2; i <= config->input; i++) {
             thread_data* td_copy = malloc(sizeof(thread_data));
@@ -138,7 +164,7 @@ void *main_thread_func(void* arg) {
         }
     
         free(thread);
-    }    
+    }
     return NULL;
 }
 
@@ -154,5 +180,17 @@ void* thread_func_linear(void* arg) {
     return NULL;
 }
 
+
+// void print_all(thread_data* primes) {
+//     time_t curr_time = time(NULL);
+//     struct tm *time_info = localtime(&curr_time);
+//     char time_string[80];
+//     strftime(time_string, sizeof(time_string), "%Y-%m-%d %H:%M:%S", localtime(&curr_time));
+//     printf("== Joint Thread | Printing started at %s == \n", time_string);
+
+//     for (unsigned long long i; i < 10; i++) {
+//         printf("%llu\n", primes[i]);
+//     }
+// }
 
 // gcc -o main main.c DivTest.c

@@ -10,10 +10,12 @@ unsigned long long* getPrimesList(int id, unsigned long long num, unsigned long 
             prime_list[count++] = i;
         }
     }
-    // printf("Count: %i\n", count);
+
     *p_count = count;
     list = prime_list;
-    printf("\n===== Thread %d done | Primes found by thread: %d =====\n\n", id, count);
+    if (print == 1) {
+        printf("\n===== Thread %d done | Primes found by thread: %d =====\n\n", id, count);
+    }
 
     return prime_list;
 }
@@ -31,6 +33,9 @@ bool isPrime(unsigned long long num, int print, int id) {
     if (print == 1) {
         strftime(time_string, sizeof(time_string), "%Y-%m-%d %H:%M:%S", localtime(&curr_time));
         printf("%llu is prime | Thread ID: %d | Timestamp: %s\n", num, id, time_string);
+    }
+    else if (print == 2) {
+        printf("%llu is prime\n", num);
     }
     
     return true;
