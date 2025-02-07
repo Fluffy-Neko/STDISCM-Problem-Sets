@@ -119,10 +119,22 @@ void *main_thread_func(void* arg) {
         free(data_arr);
     }
     else {
-        printf("2222222");
-    }
+        pthread_t* thread = malloc((config->input - 2) * sizeof(pthread_t));
     
-
+        for (int i = 2; i <= config->input; i++) {
+            thread_data* td_copy = malloc(sizeof(thread_data));
+            td_copy->print_mode = config->print;
+            td_copy->num = i;
+            td_copy->thread_id = i - 1;
+            pthread_create(&thread[i - 2], NULL, thread_func_linear, (void*)td_copy);
+        }
+    
+        for (int i = 2; i <= config->input; i++) {
+            pthread_join(thread[i - 2], NULL);
+        }
+    
+        free(thread);
+    }    
     return NULL;
 }
 
@@ -132,7 +144,9 @@ void* thread_func_range(void* arg) {
 }
 
 void* thread_func_linear(void* arg) {
-
+    thread_data* td = (thread_data*) arg;
+    isPrime(td->num, td->print_mode, td->thread_id);
+    
     return NULL;
 }
 

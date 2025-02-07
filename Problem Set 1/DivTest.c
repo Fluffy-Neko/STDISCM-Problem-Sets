@@ -1,4 +1,4 @@
-#include "DivTest.h"
+#include "Everything.h"
 
 unsigned long long* getPrimesList(int id, unsigned long long num, unsigned long long lwr_bnd, unsigned long long upp_bnd, int print) {
     int count = 0;
@@ -10,8 +10,8 @@ unsigned long long* getPrimesList(int id, unsigned long long num, unsigned long 
             prime_list[count++] = i;
         }
     }
-    printf("Count: %i\n", count);
-    printf("\n===== Thread %d done =====\n\n", id);
+    // printf("Count: %i\n", count);
+    printf("\n===== Thread %d done | Primes found by thread: %d =====\n\n", id, count);
 
     return prime_list;
 }
