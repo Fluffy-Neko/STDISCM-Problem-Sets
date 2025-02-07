@@ -1,7 +1,7 @@
 #include "Everything.h"
 
-unsigned long long* getPrimesList(int id, unsigned long long num, unsigned long long lwr_bnd, unsigned long long upp_bnd, int print) {
-    int count = 0;
+unsigned long long* getPrimesList(int id, unsigned long long num, unsigned long long lwr_bnd, unsigned long long upp_bnd, int print, unsigned long long* list, unsigned long long* p_count) {
+    unsigned long long count = 0;
     unsigned long long* prime_list = malloc((upp_bnd - lwr_bnd + 2) * sizeof(unsigned long long));
 
     for (unsigned long long i = lwr_bnd; i <= upp_bnd; i++) {
@@ -11,6 +11,8 @@ unsigned long long* getPrimesList(int id, unsigned long long num, unsigned long 
         }
     }
     // printf("Count: %i\n", count);
+    *p_count = count;
+    list = prime_list;
     printf("\n===== Thread %d done | Primes found by thread: %d =====\n\n", id, count);
 
     return prime_list;

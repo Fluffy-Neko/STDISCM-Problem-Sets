@@ -20,8 +20,10 @@ typedef struct {
     unsigned long long num;
     unsigned long long part_lo;
     unsigned long long part_hi;
-} thread_data;
 
+    unsigned long long* primes;
+    unsigned long long primes_count;
+} thread_data;
 
 int main() {
     char config_garb[MAX_config_garb_LENGTH];
@@ -89,23 +91,25 @@ void *main_thread_func(void* arg) {
         data_arr[0].part_hi = data_arr[0].part_lo + part_size - 1;
 
         for (int i = 0; i < config->threads; i++) {
+            data_arr[i].primes = malloc(part_size * sizeof(unsigned long long));
+            data_arr[i].primes_count = 0;
+
+
             // prevent overshooting
             if (data_arr[i].part_hi > config->input) {
                 data_arr[i].part_hi = config->input;
             }
 
-            data_arr[i].thread_id = i + 1;
+            data_arr[i].thread_id = i + 1; 
             data_arr[i].num = config->input;
             data_arr[i].print_mode = config->print;
-            // unsigned long long* primes_under = malloc(part_size * sizeof(unsigned long long));
 
             pthread_create(&thread[i], NULL, thread_func_range, (void*) &data_arr[i]);
 
             if (data_arr[i].part_hi == config->input) {
                 break;
             }
-
-            // This block updates the next bounds that will be checked by the next thread
+            
             if (i+1 != config->threads) {
                 data_arr[i+1].part_lo = data_arr[i].part_hi + 1;
                 data_arr[i+1].part_hi = data_arr[i+1].part_lo + part_size - 1;
@@ -113,7 +117,7 @@ void *main_thread_func(void* arg) {
         }
 
         for (int i = 0; i < config->threads; i++) {
-            pthread_join(thread[i], 0); //(void**)&primes_under
+            pthread_join(thread[i], 0);
         }
 
         free(data_arr);
@@ -140,7 +144,7 @@ void *main_thread_func(void* arg) {
 
 void* thread_func_range(void* arg) {
     thread_data* td = (thread_data*) arg;
-    return getPrimesList(td->thread_id, td->num, td->part_lo, td->part_hi, td->print_mode);
+    return getPrimesList(td->thread_id, td->num, td->part_lo, td->part_hi, td->print_mode, td->primes, &(td->primes_count));
 }
 
 void* thread_func_linear(void* arg) {

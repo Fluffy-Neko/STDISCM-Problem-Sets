@@ -14,6 +14,6 @@
 
 bool isDivisible(unsigned long long, unsigned long long);
 bool isPrime(unsigned long long, int, int);
-unsigned long long* getPrimesList(int, unsigned long long, unsigned long long, unsigned long long, int);
+unsigned long long* getPrimesList(int, unsigned long long, unsigned long long, unsigned long long, int, unsigned long long*, unsigned long long*);
 
 #endif
