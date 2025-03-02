@@ -1,4 +1,4 @@
-threads = 4
-num = 53
-print = 1
-task_div = 1
+threads = 2
+num = 100
+print = 2
+task_div = 2
