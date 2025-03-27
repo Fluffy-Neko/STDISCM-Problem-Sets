@@ -119,7 +119,7 @@ int main(int argc, char* argv[]) {
     }
 
     queue_init(input.tank_n, input.dps_n, input.heal_n);
-    // display_loading("Creating Dungeon Instances", "Dungeon Instances Created!");
+    display_loading("Creating Dungeon Instances", "Dungeon Instances Created!");
     dungeon_instance instances[input.n];
 
     pthread_t threads[input.n];
@@ -200,15 +200,15 @@ void queue_init(int tank_n, int dps_n, int heal_n) {
     // but this implementation is much simpler
     // just imagine players being queued in this function
 
-    // display_loading("Queueing Tank Players", "Tank Players Queued!");
+    display_loading("Queueing Tank Players", "Tank Players Queued!");
     data_q.tank_q_head = 1;
     data_q.tank_q_tail = tank_n;
 
-    // display_loading("Queueing DPS Players", "DPS Players Queued!");
+    display_loading("Queueing DPS Players", "DPS Players Queued!");
     data_q.dps_q_head = 1;
     data_q.dps_q_tail = dps_n;
 
-    // display_loading("Queueing Healer Players", "Healer Players Queued!");
+    display_loading("Queueing Healer Players", "Healer Players Queued!");
     data_q.heal_q_head = 1;
     data_q.heal_q_tail = heal_n;
 
