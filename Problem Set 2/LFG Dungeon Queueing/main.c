@@ -374,6 +374,7 @@ void display_loading(char* header, char* end_message) {
 
 void display_results(input_attr input) {
     printf("\n\n");
+    printf("[Final Stats]\n");
     for (int i = 0; i < input.n; i++) {
         printf("Dungeon %d: %d parties served || %.9f seconds\n", i, total_parties_served[i], total_duration[i]);
     }
