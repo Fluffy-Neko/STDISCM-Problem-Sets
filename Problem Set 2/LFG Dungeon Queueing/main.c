@@ -80,7 +80,6 @@ int main(int argc, char* argv[]) {
         // printf("1 line done\n");
     }
 
-    // Input validation
     if (true) {
         // ---------------------------------------------------------------------------------------------------------
         if (input.t1 < 1 || input.t2 < 1) {
@@ -150,9 +149,9 @@ int main(int argc, char* argv[]) {
     int x = 0;
     printf("\n");
     while (
-            // data_q.tank_q_head < data_q.tank_q_tail &&
-            // data_q.dps_q_head < data_q.dps_q_tail &&
-            // data_q.heal_q_head < data_q.heal_q_tail
+            // data_q.tank_q_head <= data_q.tank_q_tail &&
+            // data_q.dps_q_head <= data_q.dps_q_tail &&
+            // data_q.heal_q_head <= data_q.heal_q_tail
             // && 
             x < get_totalmax_instances(input.tank_n, input.dps_n, input.heal_n)
         ) {

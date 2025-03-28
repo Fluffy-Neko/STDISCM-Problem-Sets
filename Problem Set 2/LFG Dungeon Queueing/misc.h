@@ -12,3 +12,4 @@
 #include <unistd.h>
 #include <windows.h>
 #include <semaphore.h>
+#include <regex.h>
