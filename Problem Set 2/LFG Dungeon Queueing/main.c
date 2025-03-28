@@ -150,7 +150,7 @@ int main(int argc, char* argv[]) {
     printf("\n");
     while (
             // data_q.tank_q_head <= data_q.tank_q_tail &&
-            // data_q.dps_q_head <= data_q.dps_q_tail &&
+            // data_q.dps_q_head <= data_q.dps_q_tail-2 &&
             // data_q.heal_q_head <= data_q.heal_q_tail
             // && 
             x < get_totalmax_instances(input.tank_n, input.dps_n, input.heal_n)
@@ -219,11 +219,11 @@ void dungeon_init(dungeon_instance* d, unsigned int i, int t1, int t2) {
 }
 
 int get_totalmax_instances(int x, int y, int z) {
-    if (x <= y && x <= z) {
+    if (x <= y/3 && x <= z) {
         return x;
     } 
-    else if (y <= x && y <= z) {
-        return y;
+    else if (y/3 <= x && y/3 <= z) {
+        return y/3;
     }
     else {
         return z;
@@ -246,7 +246,7 @@ void* dungeon_start(void* arg) {
 
     pthread_mutex_lock(&data_q_lock);
     data_q.tank_q_head++;
-    data_q.dps_q_head++;
+    data_q.dps_q_head+=3;
     data_q.heal_q_head++;
     pthread_mutex_unlock(&data_q_lock);
 
@@ -273,7 +273,7 @@ int get_random_time(int t1, int t2, unsigned int* seed) {
 int* get_remaining_players(int min) {
     int* remaining_players = malloc(3 * sizeof(int));
     remaining_players[0] = data_q.tank_q_tail - min;
-    remaining_players[1] = data_q.dps_q_tail - min;
+    remaining_players[1] = (data_q.dps_q_tail - (min*3));
     remaining_players[2] = data_q.heal_q_tail - min;
     // printf("%d %d %d\n", data_q.tank_q_tail, data_q.dps_q_tail, data_q.heal_q_tail);
     // printf("%d %d %d\n", remaining_players[0], remaining_players[1], remaining_players[2]);

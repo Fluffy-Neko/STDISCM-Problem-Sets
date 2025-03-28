@@ -1,6 +1,6 @@
-n = 5
+n = 20
 tank = 12
-dps = 7
-heal = 6
+dps = 18
+heal = 14
 t1 = 5
 t2 = 10
